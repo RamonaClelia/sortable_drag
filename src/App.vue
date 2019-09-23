@@ -3,6 +3,25 @@
     <center>
       <div id="coverScroll"></div>
     </center>
+    <!-- start fixtopcontainer container -->
+    <div class="fixCont">
+      <div
+        class="answerRow"
+        v-for="(finInd,indx) in finalpos"
+        :key="indx"
+        :id="'sort_'+indx"
+        v-bind:style="{ 'min-height': maxh+'px' }"
+        v-if="indx<dimObj.topfix"
+      >
+        <div class="srtBtn left">&#11021;</div>
+        <div class="answer dns">
+          <span class="innText" v-html="answers[finInd]"></span>
+        </div>
+        <div class="srtBtn right">&#11021;</div>
+      </div>
+    </div>
+    <!-- end fixtopcontainer container -->
+    <!-- start sortable container -->
     <div class="answerContainer">
       <div
         class="answerRow"
@@ -10,14 +29,34 @@
         :key="indx"
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
+        v-if="indx>=dimObj.topfix && indx<(finalpos.length-dimObj.bottomfix)"
       >
         <div class="srtBtn left">&#11021;</div>
         <div class="answer dns">
-          <span class="innText" >{{answers[finInd]}}</span>
+          <span class="innText" v-html="answers[finInd]"></span>
         </div>
         <div class="srtBtn right">&#11021;</div>
       </div>
     </div>
+    <!-- end sortable container -->
+    <!-- start fixbottomcontainer container -->
+    <div class="fixCont">
+      <div
+        class="answerRow"
+        v-for="(finInd,indx) in finalpos"
+        :key="indx"
+        :id="'sort_'+indx"
+        v-bind:style="{ 'min-height': maxh+'px' }"
+        v-if="indx>=(finalpos.length-dimObj.bottomfix)"
+      >
+        <div class="srtBtn left">&#11021;</div>
+        <div class="answer dns">
+          <span class="innText" v-html="answers[finInd]"></span>
+        </div>
+        <div class="srtBtn right">&#11021;</div>
+      </div>
+    </div>
+    <!-- end fixbottomcontainer container -->
     <button
       type="button"
       id="fakeNext"
@@ -43,8 +82,9 @@ export default {
   },
   created() {
     var vueObj = this;
+
     $(".mrGridCategoryText").each(function(indx) {
-      vueObj.answers.push($(this).text());
+      vueObj.answers.push($(this).html());
       vueObj.finalpos.push(indx);
     });
 
@@ -95,10 +135,14 @@ export default {
         for (var i = 0; i < sort_arr.length; i++) {
           this.finalpos[parseInt(sort_arr[i])] = i;
         }
-        for (var i = 0; i < sort_arr.length; i++) {
+        for (
+          var i = vueObj.dimObj.topfix;
+          i < sort_arr.length + vueObj.dimObj.topfix;
+          i++
+        ) {
           $(".mrEdit")
             .eq(i * 2 + 1)
-            .val(this.finalpos[i]);
+            .val(this.finalpos[i] + vueObj.dimObj.topfix);
         }
         // $('#mrForm').submit();
       }
@@ -148,7 +192,7 @@ export default {
   display: none !important;
 }
 .question-controls-container {
-  /* display: none !important; */
+  display: none !important;
 }
 </style>
 <style scoped>
@@ -276,5 +320,14 @@ export default {
   padding-left: 1.5em;
   font-size: 1.4em;
   height: 18px;
+}
+/* .fixCont > .answerRow {
+  background-color: #49bfbc;
+  background-color: gray;
+  font-weight: bolder; 
+}*/
+.fixCont > .answerRow > .srtBtn {
+  /* color: #49bfbc; */
+  background-color: white;
 }
 </style>
