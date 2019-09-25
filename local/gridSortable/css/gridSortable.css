@@ -1,0 +1,7 @@
+/* add any styling you need for seeting the layout (hide OE inputs, or hide fish page) */
+#nav-controls .mrNext {
+  display: none !important;
+}
+.question-controls-container {
+  display: none !important;
+}

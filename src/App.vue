@@ -7,17 +7,16 @@
     <div class="fixCont">
       <div
         class="answerRow"
-        v-for="(finInd,indx) in finalpos"
+        v-for="(finInd,indx) in finalpos.filter(function(item,index){return index<inputObj.topfix})"
         :key="indx"
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
-        v-if="indx<dimObj.topfix"
       >
-        <div class="srtBtn left">&#11021;</div>
+        <div class="srtBtn left"><i class="fas fa-arrows-alt-v"></i></div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
-        <div class="srtBtn right">&#11021;</div>
+        <div class="srtBtn right"><i class="fas fa-arrows-alt-v"></i></div>
       </div>
     </div>
     <!-- end fixtopcontainer container -->
@@ -25,17 +24,16 @@
     <div class="answerContainer">
       <div
         class="answerRow"
-        v-for="(finInd,indx) in finalpos"
+        v-for="(finInd,indx) in finalpos.filter(function(item,index){return index>=inputObj.topfix && index<(finalpos.length-inputObj.bottomfix)})"
         :key="indx"
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
-        v-if="indx>=dimObj.topfix && indx<(finalpos.length-dimObj.bottomfix)"
       >
-        <div class="srtBtn left">&#11021;</div>
+        <div class="srtBtn left"><i class="fas fa-arrows-alt-v"></i></div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
-        <div class="srtBtn right">&#11021;</div>
+        <div class="srtBtn right"><i class="fas fa-arrows-alt-v"></i></div>
       </div>
     </div>
     <!-- end sortable container -->
@@ -43,17 +41,16 @@
     <div class="fixCont">
       <div
         class="answerRow"
-        v-for="(finInd,indx) in finalpos"
+        v-for="(finInd,indx) in finalpos.filter(function(item,index){return index>=(finalpos.length-inputObj.bottomfix)})"
         :key="indx"
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
-        v-if="indx>=(finalpos.length-dimObj.bottomfix)"
       >
-        <div class="srtBtn left">&#11021;</div>
+        <div class="srtBtn left"><i class="fas fa-arrows-alt-v"></i></div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
-        <div class="srtBtn right">&#11021;</div>
+        <div class="srtBtn right"><i class="fas fa-arrows-alt-v"></i></div>
       </div>
     </div>
     <!-- end fixbottomcontainer container -->
@@ -62,7 +59,7 @@
       id="fakeNext"
       class="mrNext"
       @click="next_click()"
-      v-html="dimObj.text_next"
+      v-html="inputObj.text_next"
     ></button>
   </div>
 </template> 
@@ -72,7 +69,7 @@ export default {
   name: "app",
   data() {
     return {
-      dimObj,
+      inputObj,
       answers: [],
       finalpos: [],
       maxh: 0,
@@ -121,14 +118,14 @@ export default {
       // debugger;
       if (!vueObj.was_updated) {
         var errMsg = new OverlayMaster({
-          Message: vueObj.dimObj.error_text,
-          OkButton: vueObj.dimObj.error_button
+          Message: vueObj.inputObj.error_text,
+          OkButton: vueObj.inputObj.error_button
         });
         errMsg.show();
         vueObj.warning_displayed = true;
         vueObj.was_updated = true;
       } else {
-        console.log("submit");
+        // console.log("submit");
         var sorted = $(".answerContainer").sortable("serialize", { key: "id" });
         sorted = sorted.replace(new RegExp("id=", "g"), "");
         var sort_arr = sorted.split("&");
@@ -136,15 +133,15 @@ export default {
           this.finalpos[parseInt(sort_arr[i])] = i;
         }
         for (
-          var i = vueObj.dimObj.topfix;
-          i < sort_arr.length + vueObj.dimObj.topfix;
+          var i = vueObj.inputObj.topfix;
+          i < sort_arr.length + vueObj.inputObj.topfix;
           i++
         ) {
           $(".mrEdit")
             .eq(i * 2 + 1)
-            .val(this.finalpos[i] + vueObj.dimObj.topfix);
+            .val(this.finalpos[i] + vueObj.inputObj.topfix);
         }
-        // $('#mrForm').submit();
+        $('#mrForm').submit();
       }
     },
     handleWindowResize(event) {
@@ -187,14 +184,6 @@ export default {
   }
 };
 </script>
-<style >
-#nav-controls .mrNext {
-  display: none !important;
-}
-.question-controls-container {
-  display: none !important;
-}
-</style>
 <style scoped>
 #coverScroll {
   /* background-color: bisque; */
@@ -329,5 +318,6 @@ export default {
 .fixCont > .answerRow > .srtBtn {
   /* color: #49bfbc; */
   background-color: white;
+  cursor: initial;
 }
 </style>
