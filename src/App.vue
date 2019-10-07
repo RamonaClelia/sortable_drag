@@ -129,8 +129,12 @@ export default {
         var sorted = $(".answerContainer").sortable("serialize", { key: "id" });
         sorted = sorted.replace(new RegExp("id=", "g"), "");
         var sort_arr = sorted.split("&");
+        // console.log(sort_arr);
         for (var i = 0; i < sort_arr.length; i++) {
-          this.finalpos[parseInt(sort_arr[i])] = i;
+          // console.log(i, parseInt(sort_arr[i]));
+          //add 1
+          this.finalpos[parseInt(sort_arr[i])+vueObj.inputObj.topfix] = i+vueObj.inputObj.topfix+1;
+          
         }
         for (
           var i = vueObj.inputObj.topfix;
@@ -139,8 +143,12 @@ export default {
         ) {
           $(".mrEdit")
             .eq(i * 2 + 1)
-            .val(this.finalpos[i] + vueObj.inputObj.topfix);
+            .val(this.finalpos[i]);
+          //  $(".mrEdit")
+          //   .eq(i * 2 + 1)
+          //   .val(9999);
         }
+        // // submit comm
         $('#mrForm').submit();
       }
     },
@@ -168,6 +176,7 @@ export default {
       );
     },
     add_vals() {
+      //add 1
       // debugger;
       // console.log("addvals");
       var vueObj = this;
@@ -175,10 +184,10 @@ export default {
         // console.log(indx)
         $(".mrEdit")
           .eq(indx * 2)
-          .val(indx);
+          .val(indx+1);
         $(".mrEdit")
           .eq(indx * 2 + 1)
-          .val(vueObj.finalpos[indx]);
+          .val(vueObj.finalpos[indx]+1);
       });
     }
   }
@@ -186,7 +195,6 @@ export default {
 </script>
 <style scoped>
 #coverScroll {
-  /* background-color: bisque; */
   /* border:1px solid red; */
   width: 80%;
   max-width: 600px;
@@ -197,13 +205,6 @@ export default {
   z-index: 1000;
   left: 10%;
 }
-/* .innText{
-  background-color: aquamarine;
-} */
-.answerRow {
-  position: relative;
-  padding: 5px;
-}
 .srtBtn,
 .answer {
   position: absolute;
@@ -211,6 +212,7 @@ export default {
   bottom: 0px;
   min-width: 10%;
   align-items: center;
+  display: flex;
 }
 .left {
   left: 0px;
@@ -219,36 +221,32 @@ export default {
   right: 0px;
 }
 .dns {
-  /* background-color: wheat; */
   position: absolute;
   top: 0px;
   bottom: 0px;
 }
 .answerRow {
+  position: relative;
+  padding: 5px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-}
-.answerRow > .srtBtn {
-  flex-grow: 1;
-}
-.answerRow > .answer {
-  flex-grow: 1;
 }
 .srtBtn {
   font-size: 25px;
   background-color: #49bfbc;
   color: white;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
 }
-
 .answer {
-  display: inline-flex;
   justify-content: center;
   text-align: center;
   width: 80%;
   max-width: 600px;
   padding: 3px;
+  margin-left: 9%;
 }
 .answerRow {
   border: 2px solid #42bcb9;
@@ -266,15 +264,7 @@ export default {
     width: 100%;
   }
 }
-
-.srtBtn {
-  cursor: pointer;
-  text-align: center;
-  justify-content: center;
-  display: flex;
-}
 #app {
-  /* background-color: wheat; */
   position: relative;
   max-width: 750px;
   width: 100%;
@@ -297,26 +287,7 @@ export default {
   margin-top: 30px;
 }
 
-#sortable {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 60%;
-}
-#sortable li {
-  margin: 0 3px 3px 3px;
-  padding: 0.4em;
-  padding-left: 1.5em;
-  font-size: 1.4em;
-  height: 18px;
-}
-/* .fixCont > .answerRow {
-  background-color: #49bfbc;
-  background-color: gray;
-  font-weight: bolder; 
-}*/
 .fixCont > .answerRow > .srtBtn {
-  /* color: #49bfbc; */
   background-color: white;
   cursor: initial;
 }
