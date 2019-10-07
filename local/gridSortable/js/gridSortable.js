@@ -11,6 +11,7 @@ function gridSortable(settings, parent) {
   this.text_next = 'Next';
   this.topfix= 0;
   this.bottomfix= 0;
+  this.firstValidation=false;
 
   //it's usefull to have a parameter for seting the path of the loaded files
   this.vuePath = settings.CustomPath

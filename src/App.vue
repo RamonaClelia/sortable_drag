@@ -114,9 +114,10 @@ export default {
   },
   methods: {
     next_click() {
+      // console.log(this.inputObj.firstValidation);
       let vueObj = this;
       // debugger;
-      if (!vueObj.was_updated) {
+      if (!vueObj.was_updated && this.inputObj.firstValidation) {
         var errMsg = new OverlayMaster({
           Message: vueObj.inputObj.error_text,
           OkButton: vueObj.inputObj.error_button
@@ -144,9 +145,6 @@ export default {
           $(".mrEdit")
             .eq(i * 2 + 1)
             .val(this.finalpos[i]);
-          //  $(".mrEdit")
-          //   .eq(i * 2 + 1)
-          //   .val(9999);
         }
         // // submit comm
         $('#mrForm').submit();
