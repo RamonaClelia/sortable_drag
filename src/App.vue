@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <center>
-      <div id="coverScroll"></div>
+      <div id="coverScroll" v-if="!warning_show"></div>
     </center>
     <!-- start fixtopcontainer container -->
     <div class="fixCont">
@@ -12,11 +12,15 @@
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
       >
-        <div class="srtBtn left"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="srtBtn left">
+          <i class="fas fa-arrows-alt-v"></i>
+        </div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
-        <div class="srtBtn right"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="srtBtn right">
+          <i class="fas fa-arrows-alt-v"></i>
+        </div>
       </div>
     </div>
     <!-- end fixtopcontainer container -->
@@ -29,11 +33,15 @@
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
       >
-        <div class="srtBtn left"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="srtBtn left">
+          <i class="fas fa-arrows-alt-v"></i>
+        </div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
-        <div class="srtBtn right"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="srtBtn right">
+          <i class="fas fa-arrows-alt-v"></i>
+        </div>
       </div>
     </div>
     <!-- end sortable container -->
@@ -46,14 +54,30 @@
         :id="'sort_'+indx"
         v-bind:style="{ 'min-height': maxh+'px' }"
       >
-        <div class="srtBtn left"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="srtBtn left">
+          <i class="fas fa-arrows-alt-v"></i>
+        </div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
-        <div class="srtBtn right"><i class="fas fa-arrows-alt-v"></i></div>
+        <div class="srtBtn right">
+          <i class="fas fa-arrows-alt-v"></i>
+        </div>
       </div>
     </div>
     <!-- end fixbottomcontainer container -->
+    <div class="modalContainer" v-if="warning_show">
+      <div class="modalOverlay" @click.self="warning_show=false"></div>
+      <div class="modalContent">
+        <div class="modalClose" >
+          <span id="closeBtn" v-html="inputObj.error_button"  @click="warning_show=false">
+
+          </span>
+        </div>
+        <div class="modalText" v-html="inputObj.error_text"></div>
+        
+      </div>
+    </div>
     <button
       type="button"
       id="fakeNext"
@@ -74,7 +98,8 @@ export default {
       finalpos: [],
       maxh: 0,
       was_updated: false,
-      warning_displayed: false
+      warning_displayed: false,
+      warning_show: false
     };
   },
   created() {
@@ -112,17 +137,27 @@ export default {
       $("body").trigger("fakeReady");
     };
   },
+ watch: {
+    warning_show: function(value) {
+      if (value){
+        $('body').css('overflow','hidden')
+      }else{
+        $('body').css('overflow','inherit')
+      }
+    }
+  },
   methods: {
     next_click() {
       // console.log(this.inputObj.firstValidation);
       let vueObj = this;
       // debugger;
-      if (!vueObj.was_updated && this.inputObj.firstValidation) {
-        var errMsg = new OverlayMaster({
-          Message: vueObj.inputObj.error_text,
-          OkButton: vueObj.inputObj.error_button
-        });
-        errMsg.show();
+      if (!vueObj.was_updated && vueObj.inputObj.firstValidation) {
+        vueObj.warning_show = true;
+        // var errMsg = new OverlayMaster({
+        //   Message: vueObj.inputObj.error_text,
+        //   OkButton: vueObj.inputObj.error_button
+        // });
+        // errMsg.show();
         vueObj.warning_displayed = true;
         vueObj.was_updated = true;
       } else {
@@ -134,8 +169,8 @@ export default {
         for (var i = 0; i < sort_arr.length; i++) {
           // console.log(i, parseInt(sort_arr[i]));
           //add 1
-          this.finalpos[parseInt(sort_arr[i])+vueObj.inputObj.topfix] = i+vueObj.inputObj.topfix+1;
-          
+          this.finalpos[parseInt(sort_arr[i]) + vueObj.inputObj.topfix] =
+            i + vueObj.inputObj.topfix + 1;
         }
         for (
           var i = vueObj.inputObj.topfix;
@@ -147,7 +182,7 @@ export default {
             .val(this.finalpos[i]);
         }
         // // submit comm
-        $('#mrForm').submit();
+        $("#mrForm").submit();
       }
     },
     handleWindowResize(event) {
@@ -182,16 +217,76 @@ export default {
         // console.log(indx)
         $(".mrEdit")
           .eq(indx * 2)
-          .val(indx+1);
+          .val(indx + 1);
         $(".mrEdit")
           .eq(indx * 2 + 1)
-          .val(vueObj.finalpos[indx]+1);
+          .val(vueObj.finalpos[indx] + 1);
       });
     }
   }
 };
 </script>
 <style scoped>
+/* .modalContainer{
+
+} */
+.modalContent {
+  background-color: white;
+  position: fixed;
+  width: 60vw;
+  top: 15%;
+  max-height: 70vh;
+  min-height: 20vh;
+  margin: 5% auto; /* Will not center vertically and won't work in IE6/7. */
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+
+}
+.modalOverlay {
+  background-color: black;
+  opacity: 0.75;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.modalClose {
+  background-color: #42bcb9;
+  display: flex;
+  justify-content: flex-end;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+#closeBtn{
+  /* background-color: bisque; */
+    padding: 5px;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+#closeBtn:hover{
+  color: gray;
+}
+.modalText {
+  /* background-color: aliceblue; */
+  display: flex;
+  flex-grow: 2;
+  padding: 5px;
+    border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+@media only screen and (max-width: 600px) {
+  .modalContent {
+    width: 85vw;
+  }
+}
 #coverScroll {
   /* border:1px solid red; */
   width: 80%;
