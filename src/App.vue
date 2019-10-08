@@ -281,6 +281,9 @@ export default {
   padding: 5px;
     border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  overflow: auto;
+      max-height: 85%;
+    min-height: 100px;
 }
 @media only screen and (max-width: 600px) {
   .modalContent {
