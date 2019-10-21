@@ -194,6 +194,8 @@ export default {
         // console.log(indx,this.scrollHeight, this.offsetHeight);
         if (this.scrollHeight > maximum) {
           maximum = this.scrollHeight;
+          //heightCorrection
+          maximum=maximum+5;
         }
       });
       // console.log(this.maxh, maximum);
@@ -384,7 +386,7 @@ export default {
 }
 
 .fixCont > .answerRow > .srtBtn {
-  background-color: white;
+  background-color: transparent;
   cursor: initial;
 }
 </style>
