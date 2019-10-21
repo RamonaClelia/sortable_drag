@@ -86,6 +86,7 @@
       v-html="inputObj.text_next"
     ></button>
   </div>
+  <!-- <i class="fas fa-arrows-alt-v"></i> -->
 </template> 
 
 <script>
@@ -388,5 +389,8 @@ export default {
 .fixCont > .answerRow > .srtBtn {
   background-color: transparent;
   cursor: initial;
+}
+.fa{
+  color: white !important;
 }
 </style>
