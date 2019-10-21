@@ -13,13 +13,13 @@
         v-bind:style="{ 'min-height': maxh+'px' }"
       >
         <div class="srtBtn left">
-          <i class="fas fa-arrows-alt-v"></i>
+          <i class="fa fa-bars"></i>
         </div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
         <div class="srtBtn right">
-          <i class="fas fa-arrows-alt-v"></i>
+          <i class="fa fa-bars"></i>
         </div>
       </div>
     </div>
@@ -34,13 +34,13 @@
         v-bind:style="{ 'min-height': maxh+'px' }"
       >
         <div class="srtBtn left">
-          <i class="fas fa-arrows-alt-v"></i>
+          <i class="fa fa-bars"></i>
         </div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
         <div class="srtBtn right">
-          <i class="fas fa-arrows-alt-v"></i>
+          <i class="fa fa-bars"></i>
         </div>
       </div>
     </div>
@@ -55,13 +55,13 @@
         v-bind:style="{ 'min-height': maxh+'px' }"
       >
         <div class="srtBtn left">
-          <i class="fas fa-arrows-alt-v"></i>
+          <i class="fa fa-bars"></i>
         </div>
         <div class="answer dns">
           <span class="innText" v-html="answers[finInd]"></span>
         </div>
         <div class="srtBtn right">
-          <i class="fas fa-arrows-alt-v"></i>
+          <i class="fa fa-bars"></i>
         </div>
       </div>
     </div>
